@@ -27,6 +27,10 @@
             --color-berandaiandai: #F06292;
             --color-ruangimajinasi: #4DD0E1;
             --color-titiktemu: #FFB74D;
+
+            /* Warna Khusus Event */
+            --color-special: #FFB300;
+            --color-icebreaker: #EC407A;
         }
 
         * {
@@ -93,10 +97,49 @@
         .creator-text {
             font-size: 0.95rem;
             color: var(--text-muted);
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             letter-spacing: 1px;
             text-transform: uppercase;
             font-weight: 600;
+        }
+
+        /* Form Input Nama Pemain */
+        .player-inputs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-direction: column;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .input-group label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #E1F5FE;
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            color: var(--text-main);
+            font-family: inherit;
+        }
+
+        .input-group input:focus {
+            border-color: var(--btn-bg);
+            box-shadow: 0 0 0 3px rgba(3, 169, 244, 0.15);
         }
 
         .rules-container {
@@ -119,8 +162,8 @@
         .rules-container ul {
             list-style-type: none;
             color: var(--text-main);
-            font-size: 1rem;
-            line-height: 1.7;
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
 
         .rules-container li {
@@ -142,6 +185,21 @@
             text-align: center;
         }
 
+        /* Indikator Giliran */
+        .turn-indicator {
+            display: inline-block;
+            background-color: #FFFFFF;
+            color: var(--btn-bg);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(3, 169, 244, 0.1);
+            border: 1px solid #E1F5FE;
+            transition: all 0.3s ease;
+        }
+
         .card-perspective {
             perspective: 2000px;
             margin-bottom: 40px;
@@ -152,19 +210,14 @@
             background: #FFFFFF;
             padding: 60px 40px;
             border-radius: 20px;
-
-            box-shadow:
-                0 4px 15px rgba(3, 169, 244, 0.05),
-                0 15px 40px rgba(3, 169, 244, 0.1);
-
+            box-shadow: 0 4px 15px rgba(3, 169, 244, 0.05), 0 15px 40px rgba(3, 169, 244, 0.1);
             border: 2px solid #E1F5FE;
             min-height: 320px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease, border-color 0.4s ease;
             transform-style: preserve-3d;
             backface-visibility: hidden;
             position: relative;
@@ -228,6 +281,7 @@
             font-weight: 700;
             letter-spacing: 0.5px;
             box-shadow: 0 4px 15px rgba(3, 169, 244, 0.3);
+            width: 100%;
         }
 
         .btn:hover {
@@ -252,14 +306,6 @@
             background-color: #E1F5FE;
             color: var(--btn-hover);
             border-color: var(--btn-hover);
-            box-shadow: none;
-        }
-
-        .btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: none !important;
         }
 
         .counter {
@@ -290,7 +336,6 @@
 
             .btn {
                 padding: 15px 25px;
-                width: 100%;
             }
 
             .button-group {
@@ -307,20 +352,34 @@
         <h1>Deep Talk</h1>
         <div class="creator-text">Created by FikriAF</div>
 
+        <div class="player-inputs">
+            <div class="input-group">
+                <label for="player1">Nama Kamu:</label>
+                <input type="text" id="player1" placeholder="Nama" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label for="player2">Nama Partner Ngobrolmu:</label>
+                <input type="text" id="player2" placeholder="Nama" autocomplete="off">
+            </div>
+        </div>
+
         <div class="rules-container">
             <h3>Aturan Main</h3>
             <ul>
-                <li>Jawab pertanyaan dengan santai, tidak ada jawaban salah.</li>
+                <li>Masukkan nama kalian berdua sebelum mulai.</li>
+                <li>Nama yang muncul di atas kartu adalah pihak yang harus <b>menjawab</b> pertanyaan.</li>
                 <li>Jika muncul aturan tambahan di kartu, silakan diikuti.</li>
                 <li>Boleh menolak menjawab jika dirasa terlalu berat.</li>
                 <li>Fokus ke obrolan, bukan ke layar.</li>
             </ul>
         </div>
 
-        <button id="startBtn" class="btn">Mulai Obrolan</button>
+        <button id="startBtn" class="btn">Mulai Permainan</button>
     </div>
 
     <div id="gameScreen">
+        <div id="turnIndicator" class="turn-indicator">Persiapan...</div>
+
         <div class="card-perspective">
             <div id="cardContent" class="card-content">
                 <div id="category" class="category"></div>
@@ -330,69 +389,59 @@
         </div>
 
         <div class="button-group">
-            <button id="prevBtn" class="btn btn-secondary" disabled>Kembali</button>
-            <button id="nextBtn" class="btn">Tarik Pertanyaan</button>
+            <button id="prevBtn" class="btn btn-secondary" disabled>Sebelumnya</button>
+            <button id="nextBtn" class="btn">Tarik Kartu</button>
         </div>
         <div id="counter" class="counter"></div>
     </div>
 
     <script>
         const allQuestions = [
-            // Pemanasan
             { category: "Pemanasan", text: "Apa hal yang paling berubah dari kamu dibanding dulu?" },
             { category: "Pemanasan", text: "Kalau lihat diri kamu yang dulu, kamu bakal bilang apa ke dia sekarang?" },
             { category: "Pemanasan", text: "Akhir-akhir ini kamu lagi sibuk apa?" },
             { category: "Pemanasan", text: "Ada hal kecil yang belakangan ini bikin kamu senang?" },
             { category: "Pemanasan", text: "Akhir-akhir ini kamu lagi sering mikirin apa?" },
-            // Tentang Kamu
             { category: "Tentang Kamu", text: "Kamu lagi di fase hidup yang kayak gimana sekarang?" },
             { category: "Tentang Kamu", text: "Apa yang lagi kamu kejar sekarang?" },
             { category: "Tentang Kamu", text: "Apa yang lagi kamu pelajari tentang diri kamu?" },
             { category: "Tentang Kamu", text: "Hal apa yang paling kamu banggakan dari diri kamu sekarang?" },
             { category: "Tentang Kamu", text: "Hal apa yang masih pengen kamu perbaiki dari diri kamu?" },
-            // Jalan Hidup
             { category: "Jalan Hidup", text: "Menurut kamu, hidup itu lagi 'mengarah ke mana' buat kamu?" },
             { category: "Jalan Hidup", text: "Apa yang paling kamu takutkan belakangan ini?" },
             { category: "Jalan Hidup", text: "Apa hal yang bikin kamu tetap jalan terus walaupun capek?" },
             { category: "Jalan Hidup", text: "Kamu tipe orang yang lebih ikut arus atau punya rencana jelas?" },
             { category: "Jalan Hidup", text: "Kapan terakhir kali kamu ngerasa 'ini gue banget'?" },
-            // Babak Baru
             { category: "Babak Baru", text: "Hal apa yang paling kamu tunggu dari pindah ke Jerman?" },
             { category: "Babak Baru", text: "Yang paling kamu khawatirin tentang kehidupan di sana apa?" },
             { category: "Babak Baru", text: "Menurut kamu, kamu bakal berubah banyak gak di sana?" },
             { category: "Babak Baru", text: "Kamu lebih merasa excited atau nervous soal ini?" },
             { category: "Babak Baru", text: "Kamu ngebayangin diri kamu di sana bakal kayak gimana rutinitasnya?" },
-            // Kilas Balik
             { category: "Kilas Balik", text: "Ada gak momen dalam hidup kamu yang ngerasa turning point banget?" },
             { category: "Kilas Balik", text: "Apa pelajaran terbesar yang kamu dapet sejauh ini?" },
             { category: "Kilas Balik", text: "Kamu ngerasa kamu sekarang lebih kuat atau lebih capek?" },
             { category: "Kilas Balik", text: "Menurut kamu, apa yang paling ngebentuk diri kamu sekarang?" },
             { category: "Kilas Balik", text: "Hal apa yang dulu kamu pikir penting, tapi sekarang nggak lagi?" },
-            // Sudut Pandang
             { category: "Sudut Pandang", text: "Menurut kamu, hal apa yang paling bikin seseorang terlihat menarik di mata kamu?" },
             { category: "Sudut Pandang", text: "Kalau kamu bisa mengubah satu hal dari dunia ini, apa yang mau kamu ubah?" },
-            { category: "Sudut Pandang", text: "Apa hal yang dulunya kamu benci tapi sekarang malah kamu suka?" },
+            { category: "Sudut Pandang", text: "Apa hal yang dulunya kamu benci tapi sekarang malah kamu sukai?" },
             { category: "Sudut Pandang", text: "Kamu lebih percaya kerja keras atau keberuntungan?" },
             { category: "Sudut Pandang", text: "Menurut kamu, orang dewasa itu harus kayak gimana sih?" },
-            // Hal-Hal Kecil
             { category: "Hal-Hal Kecil", text: "Apa rutinitas harian yang paling jarang kamu lewati?" },
             { category: "Hal-Hal Kecil", text: "Kalau lagi lelah, biasanya kamu ngapain buat mengembalikan energi?" },
             { category: "Hal-Hal Kecil", text: "Buku, film, atau lagu apa yang paling mengubah cara berpikir kamu?" },
             { category: "Hal-Hal Kecil", text: "Apa tempat favorit kamu untuk menyendiri dan berpikir?" },
             { category: "Hal-Hal Kecil", text: "Hal kecil apa yang gampang banget bikin kamu tertawa?" },
-            // Berandai-andai
             { category: "Berandai-andai", text: "Kalau kita ketemu lebih cepat dulu, menurut kamu bakal beda gak?" },
             { category: "Berandai-andai", text: "Kalau dulu kita nggak lost contact, menurut kamu kita bakal gimana sekarang?" },
             { category: "Berandai-andai", text: "Kalau setelah ini kita nggak ketemu lagi, menurut kamu bakal terasa aneh gak?" },
             { category: "Berandai-andai", text: "Kalau waktu nggak misahin orang, menurut kamu kita bakal tetap sama gak?" },
             { category: "Berandai-andai", text: "Kalau semua hal berjalan beda sedikit aja, menurut kamu kita masih di titik ini gak?" },
-            // Ruang Imajinasi
             { category: "Ruang Imajinasi", text: "Kalau suatu hari kita ketemu lagi di tempat yang sama, menurut kamu bakal gimana?" },
             { category: "Ruang Imajinasi", text: "Kalau jarak justru bikin orang lebih ngerti satu sama lain, kamu percaya gak?" },
             { category: "Ruang Imajinasi", text: "Kalau pertemuan ini bukan kebetulan, menurut kamu artinya apa?" },
             { category: "Ruang Imajinasi", text: "Kalau ada orang-orang yang memang ditakdirkan ketemu lagi, kamu percaya gak?" },
             { category: "Ruang Imajinasi", text: "Kalau ini bukan akhir, tapi jeda, menurut kamu mungkin gak?" },
-            // Titik Temu
             { category: "Titik Temu", text: "Dari semua yang terjadi, kamu paling bersyukur tentang apa?" },
             { category: "Titik Temu", text: "Kamu ngerasa ada hal yang belum sempat kamu sampaikan gak?" },
             { category: "Titik Temu", text: "Momen hari ini, bagian mana yang paling kamu inget?" },
@@ -400,11 +449,25 @@
             { category: "Titik Temu", text: "Menurut kamu, apa yang bikin sebuah pertemuan jadi berarti?" }
         ];
 
-        // Daftar Aturan yang Sudah Disesuaikan untuk Deep Talk
+        const iceBreakers = [
+            { category: "Ice Breaker", text: "Kalau kamu jadi bubur ayam, kamu tim diaduk atau nggak diaduk? Berikan alasan logisnya!" },
+            { category: "Ice Breaker", text: "Kalau zombie apocalypse terjadi besok, apa 3 barang pertama yang kamu bawa kabur?" },
+            { category: "Ice Breaker", text: "Pilih satu: Bisa terbang tapi cuma setinggi 1 meter, atau bisa menghilang tapi kalau lagi merem doang?" },
+            { category: "Ice Breaker", text: "Sebutkan satu teori konspirasi paling absurd yang diam-diam kamu percayai." },
+            { category: "Ice Breaker", text: "Kalau hidupmu dijadikan film, genre apa yang cocok dan siapa aktor yang meranin kamu?" }
+        ];
+
+        const specialCards = [
+            { category: "Kartu Spesial", text: "REVERSE: Balikkan keadaan! Lawan bicaramu yang harus menjawab pertanyaan terakhir." },
+            { category: "Kartu Spesial", text: "FREE PASS: Kamu boleh menolak menjawab 1 pertanyaan ke depan tanpa syarat. (Simpan kartu ini)" },
+            { category: "Kartu Spesial", text: "WILDCARD: Kamu bebas membuat satu pertanyaan apa saja secara spontan untuk lawan bicaramu saat ini juga." },
+            { category: "Kartu Spesial", text: "TATAP MATA: Kalian berdua tidak boleh bicara selama 30 detik. Cukup saling menatap tanpa tertawa." }
+        ];
+
         const randomRules = [
             "Aturan Tambahan: Jawab sambil menatap mata lawan bicara.",
             "Aturan Tambahan: Tarik napas panjang dulu sebelum mulai menjawab.",
-            "Aturan Tambahan: Ceritakan satu contoh spesifik dari jawabanmu.",
+            "Aturan Tambahan: Ceritakan satu contoh kejadian spesifik dari jawabanmu.",
             "Aturan Tambahan: Minum dulu sebelum menjawab pertanyaan ini.",
             "Aturan Tambahan: Setelah menjawab, tanyakan 'Kalau kamu gimana?'"
         ];
@@ -412,6 +475,10 @@
         let availableQuestions = [];
         let history = [];
         let currentIndex = -1;
+        let p1Name = "Pemain 1";
+        let p2Name = "Pemain 2";
+        let isPlayer1Turn = true;
+        let audioContext;
 
         const startScreen = document.getElementById('startScreen');
         const gameScreen = document.getElementById('gameScreen');
@@ -423,6 +490,34 @@
         const nextBtn = document.getElementById('nextBtn');
         const prevBtn = document.getElementById('prevBtn');
         const counterEl = document.getElementById('counter');
+        const turnIndicator = document.getElementById('turnIndicator');
+
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playFlipSound() {
+            if (!audioContext) return;
+            if (audioContext.state === 'suspended') audioContext.resume();
+
+            const osc = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            osc.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(800, audioContext.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(150, audioContext.currentTime + 0.05);
+
+            gainNode.gain.setValueAtTime(0.4, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
+
+            osc.start();
+            osc.stop(audioContext.currentTime + 0.05);
+        }
 
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -433,12 +528,16 @@
         }
 
         function getCategoryColor(category) {
+            if (category === "Kartu Spesial") return 'var(--color-special)';
+            if (category === "Ice Breaker") return 'var(--color-icebreaker)';
+
             const catClass = category.toLowerCase().replace(/\s+/g, '');
             const colorVar = `--color-${catClass}`;
             return getComputedStyle(document.documentElement).getPropertyValue(colorVar).trim() || '#03A9F4';
         }
 
         function updateUI(questionData) {
+            playFlipSound();
             cardContent.classList.add('flipping');
 
             setTimeout(() => {
@@ -446,10 +545,11 @@
 
                 categoryEl.textContent = questionData.category;
                 categoryEl.style.color = catColor;
+                cardContent.style.borderColor = catColor;
 
                 questionEl.textContent = questionData.text;
 
-                if (questionData.rule) {
+                if (questionData.rule && questionData.category !== "Kartu Spesial" && questionData.category !== "Ice Breaker") {
                     ruleBoxEl.textContent = questionData.rule;
                     ruleBoxEl.style.display = "block";
                     ruleBoxEl.style.borderColor = catColor;
@@ -457,8 +557,31 @@
                     ruleBoxEl.style.display = "none";
                 }
 
-                counterEl.textContent = `${currentIndex + 1} dari ${allQuestions.length}`;
+                counterEl.textContent = `Kartu ke-${currentIndex + 1}`;
                 prevBtn.disabled = currentIndex === 0;
+
+                // Memperjelas penanda giliran berdasarkan jenis kartu
+                if (questionData.category === "Kartu Spesial" && questionData.text.includes("TATAP MATA")) {
+                    turnIndicator.textContent = "Tantangan Berdua";
+                    turnIndicator.style.backgroundColor = "var(--color-special)";
+                    turnIndicator.style.color = "#FFF";
+                } else if (questionData.category === "Kartu Spesial" && questionData.text.includes("WILDCARD")) {
+                    turnIndicator.textContent = `Giliran Bertanya: ${questionData.targetPlayer}`;
+                    turnIndicator.style.backgroundColor = "var(--color-special)";
+                    turnIndicator.style.color = "#FFF";
+                } else if (questionData.category === "Kartu Spesial" && questionData.text.includes("FREE PASS")) {
+                    turnIndicator.textContent = `Hak Istimewa: ${questionData.targetPlayer}`;
+                    turnIndicator.style.backgroundColor = "var(--color-special)";
+                    turnIndicator.style.color = "#FFF";
+                } else if (questionData.category === "Kartu Spesial" && questionData.text.includes("REVERSE")) {
+                    turnIndicator.textContent = `Serangan Balik dari: ${questionData.targetPlayer}`;
+                    turnIndicator.style.backgroundColor = "var(--color-special)";
+                    turnIndicator.style.color = "#FFF";
+                } else {
+                    turnIndicator.textContent = `Giliran Menjawab: ${questionData.targetPlayer}`;
+                    turnIndicator.style.backgroundColor = "#FFFFFF";
+                    turnIndicator.style.color = "var(--btn-bg)";
+                }
 
                 cardContent.classList.remove('flipping');
             }, 300);
@@ -473,22 +596,38 @@
 
             if (availableQuestions.length === 0) {
                 availableQuestions = shuffleArray([...allQuestions]);
-                history = [];
-                currentIndex = -1;
             }
 
-            const currentQuestion = availableQuestions.pop();
+            let randomChance = Math.random();
+            let currentQuestion;
+
+            if (randomChance < 0.08) {
+                currentQuestion = specialCards[Math.floor(Math.random() * specialCards.length)];
+            } else if (randomChance >= 0.08 && randomChance < 0.16) {
+                currentQuestion = iceBreakers[Math.floor(Math.random() * iceBreakers.length)];
+            } else {
+                currentQuestion = availableQuestions.pop();
+            }
 
             let rule = null;
-            if (Math.random() < 0.20) {
-                rule = randomRules[Math.floor(Math.random() * randomRules.length)];
+            if (currentQuestion.category !== "Kartu Spesial" && currentQuestion.category !== "Ice Breaker") {
+                if (Math.random() < 0.20) {
+                    rule = randomRules[Math.floor(Math.random() * randomRules.length)];
+                }
             }
+
+            let activePlayer = isPlayer1Turn ? p1Name : p2Name;
 
             const questionData = {
                 category: currentQuestion.category,
                 text: currentQuestion.text,
-                rule: rule
+                rule: rule,
+                targetPlayer: activePlayer
             };
+
+            if (!questionData.text.includes("REVERSE")) {
+                isPlayer1Turn = !isPlayer1Turn;
+            }
 
             history.push(questionData);
             currentIndex++;
@@ -499,13 +638,23 @@
         function getPrevQuestion() {
             if (currentIndex > 0) {
                 currentIndex--;
+                isPlayer1Turn = history[currentIndex].targetPlayer === p1Name ? false : true;
                 updateUI(history[currentIndex]);
             }
         }
 
         startBtn.addEventListener('click', () => {
+            const input1 = document.getElementById('player1').value.trim();
+            const input2 = document.getElementById('player2').value.trim();
+
+            p1Name = input1 !== "" ? input1 : "Kamu";
+            p2Name = input2 !== "" ? input2 : "Dia";
+
+            initAudio();
+
             startScreen.style.display = 'none';
             gameScreen.style.display = 'block';
+
             getNextQuestion();
         });
 
