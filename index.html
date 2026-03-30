@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Talk</title>
+    <title>QnA</title>
     <style>
         :root {
-            /* Tema Biru Langit & Colorful */
             --bg-body: #E1F5FE;
             --text-main: #263238;
             --text-muted: #78909C;
@@ -16,19 +15,16 @@
             --btn-text: #FFFFFF;
             --card-bg: #FFFFFF;
 
-            /* Palet Kategori Colorful */
             --color-pemanasan: #FF8A65;
             --color-tentangkamu: #4DB6AC;
             --color-jalanhidup: #7986CB;
-            --color-babakbaru: #4FC3F7;
+            --color-pilihansulit: #4FC3F7;
             --color-kilasbalik: #BA68C8;
             --color-sudutpandang: #F6BF26;
             --color-halhalkecil: #81C784;
             --color-berandaiandai: #F06292;
             --color-ruangimajinasi: #4DD0E1;
             --color-titiktemu: #FFB74D;
-
-            /* Warna Khusus Event */
             --color-special: #FFB300;
             --color-icebreaker: #EC407A;
         }
@@ -43,35 +39,306 @@
             font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* === LAYAR AWAL === */
+        #startScreen {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Container Utama */
-        #gameScreen {
-            display: none;
-            width: 100%;
-            max-width: 580px;
+            background-color: var(--bg-body);
             animation: fadeIn 0.8s ease forwards;
+            overflow-y: auto;
         }
 
-        #startScreen {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            max-width: 580px;
+        .start-container {
             background-color: var(--card-bg);
-            padding: 50px 40px;
+            padding: 40px 30px;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(3, 169, 244, 0.1);
             text-align: center;
+            width: 100%;
+            max-width: 500px;
             border: 1px solid #B3E5FC;
-            animation: fadeIn 0.8s ease forwards;
+            margin: auto;
+        }
+
+        .start-container h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--btn-bg);
+            margin-bottom: 5px;
+        }
+
+        .creator-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .player-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            text-align: left;
+        }
+
+        .input-group label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #E1F5FE;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+            margin-top: 5px;
+            font-family: inherit;
+        }
+
+        .input-group input:focus {
+            border-color: var(--btn-bg);
+        }
+
+        .rules-container {
+            text-align: left;
+            background-color: #F1F8E9;
+            padding: 20px;
+            border-radius: 12px;
+            width: 100%;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--color-halhalkecil);
+        }
+
+        .rules-container h3 {
+            font-size: 1rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .rules-container ul {
+            list-style-type: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .rules-container li {
+            position: relative;
+            padding-left: 15px;
+            margin-bottom: 6px;
+        }
+
+        .rules-container li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--color-halhalkecil);
+            font-weight: bold;
+        }
+
+        /* === AREA PERMAINAN (TABLETOP MODE) === */
+        #gameScreen {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+            justify-content: space-between;
+            background-color: var(--bg-body);
+        }
+
+        .player-zone {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 20px;
+            transition: opacity 0.4s ease;
+        }
+
+        .top-zone {
+            transform: rotate(180deg);
+        }
+
+        .hud {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .hud-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .player-name-badge {
+            background-color: var(--btn-bg);
+            color: #FFF;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .inventory-badge {
+            background-color: #FFF;
+            color: var(--color-special);
+            border: 2px solid var(--color-special);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        /* Layout Tombol Aksi */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .action-btn {
+            flex: 1;
+            color: #FFF;
+            border: none;
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: none;
+            transition: 0.2s;
+        }
+
+        .action-btn:active {
+            transform: scale(0.95);
+        }
+
+        .skip-btn {
+            background-color: var(--color-icebreaker);
+            box-shadow: 0 4px 10px rgba(236, 64, 122, 0.3);
+        }
+
+        .reverse-btn {
+            background-color: var(--color-special);
+            box-shadow: 0 4px 10px rgba(255, 179, 0, 0.3);
+        }
+
+        .card-perspective {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .card-content {
+            background: #FFFFFF;
+            padding: 25px 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(3, 169, 244, 0.05);
+            border: 2px solid #E1F5FE;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flipping {
+            transform: rotateY(180deg) scale(0.95);
+        }
+
+        .category-text {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            line-height: 1.4;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 15px;
+        }
+
+        .rule-text {
+            display: none;
+            background-color: #FFFDE7;
+            color: #5D4037;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-left: 4px solid var(--color-sudutpandang);
+            width: 100%;
+        }
+
+        .middle-controls {
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(225, 245, 254, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            border-top: 2px solid #FFF;
+            border-bottom: 2px solid #FFF;
+        }
+
+        .main-btn {
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(3, 169, 244, 0.3);
+            transition: 0.2s;
+        }
+
+        .main-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 5px rgba(3, 169, 244, 0.3);
+        }
+
+        #alertMessage {
+            color: #D32F2F;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: none;
         }
 
         @keyframes fadeIn {
@@ -85,314 +352,91 @@
                 transform: translateY(0);
             }
         }
-
-        #startScreen h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            color: var(--btn-bg);
-            margin-bottom: 5px;
-        }
-
-        .creator-text {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        /* Form Input Nama Pemain */
-        .player-inputs {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-direction: column;
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            width: 100%;
-        }
-
-        .input-group label {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px 20px;
-            border: 2px solid #E1F5FE;
-            border-radius: 12px;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s ease;
-            color: var(--text-main);
-            font-family: inherit;
-        }
-
-        .input-group input:focus {
-            border-color: var(--btn-bg);
-            box-shadow: 0 0 0 3px rgba(3, 169, 244, 0.15);
-        }
-
-        .rules-container {
-            text-align: left;
-            background-color: #F1F8E9;
-            padding: 25px;
-            border-radius: 12px;
-            width: 100%;
-            margin-bottom: 40px;
-            border-left: 4px solid var(--color-halhalkecil);
-        }
-
-        .rules-container h3 {
-            font-size: 1.1rem;
-            color: var(--text-main);
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .rules-container ul {
-            list-style-type: none;
-            color: var(--text-main);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        .rules-container li {
-            position: relative;
-            padding-left: 20px;
-            margin-bottom: 8px;
-        }
-
-        .rules-container li::before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: var(--color-halhalkecil);
-            font-weight: bold;
-        }
-
-        /* === AREA PERMAINAN === */
-        #gameScreen {
-            text-align: center;
-        }
-
-        /* Indikator Giliran */
-        .turn-indicator {
-            display: inline-block;
-            background-color: #FFFFFF;
-            color: var(--btn-bg);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(3, 169, 244, 0.1);
-            border: 1px solid #E1F5FE;
-            transition: all 0.3s ease;
-        }
-
-        .card-perspective {
-            perspective: 2000px;
-            margin-bottom: 40px;
-            width: 100%;
-        }
-
-        .card-content {
-            background: #FFFFFF;
-            padding: 60px 40px;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(3, 169, 244, 0.05), 0 15px 40px rgba(3, 169, 244, 0.1);
-            border: 2px solid #E1F5FE;
-            min-height: 320px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease, border-color 0.4s ease;
-            transform-style: preserve-3d;
-            backface-visibility: hidden;
-            position: relative;
-        }
-
-        .flipping {
-            transform: rotateY(180deg) scale(0.95);
-            box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
-        }
-
-        .category {
-            font-size: 1rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 30px;
-            font-weight: 800;
-            transition: color 0.3s ease;
-        }
-
-        .question {
-            font-size: 1.8rem;
-            line-height: 1.4;
-            font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 30px;
-            word-wrap: break-word;
-            max-width: 100%;
-        }
-
-        .rule-box {
-            display: none;
-            background-color: #FFFDE7;
-            color: #5D4037;
-            padding: 15px 20px;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            margin-top: 20px;
-            max-width: 90%;
-            border-left: 4px solid var(--color-sudutpandang);
-        }
-
-        /* === TOMBOL-TOMBOL === */
-        .button-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        .btn {
-            background-color: var(--btn-bg);
-            color: var(--btn-text);
-            border: none;
-            padding: 16px 35px;
-            font-size: 1.05rem;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(3, 169, 244, 0.3);
-            width: 100%;
-        }
-
-        .btn:hover {
-            background-color: var(--btn-hover);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(3, 169, 244, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(3, 169, 244, 0.3);
-        }
-
-        .btn-secondary {
-            background-color: #FFFFFF;
-            color: var(--btn-bg);
-            border: 2px solid var(--btn-bg);
-            box-shadow: none;
-        }
-
-        .btn-secondary:hover {
-            background-color: #E1F5FE;
-            color: var(--btn-hover);
-            border-color: var(--btn-hover);
-        }
-
-        .counter {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            body {
-                padding: 15px;
-            }
-
-            #startScreen,
-            .card-content {
-                padding: 40px 25px;
-            }
-
-            #startScreen h1 {
-                font-size: 2.4rem;
-            }
-
-            .question {
-                font-size: 1.5rem;
-            }
-
-            .btn {
-                padding: 15px 25px;
-            }
-
-            .button-group {
-                flex-direction: column-reverse;
-                gap: 12px;
-            }
-        }
     </style>
 </head>
 
 <body>
 
     <div id="startScreen">
-        <h1>Deep Talk</h1>
-        <div class="creator-text">Created by FikriAF</div>
+        <div class="start-container">
+            <h1>Deep Talk</h1>
+            <div class="creator-text">Tabletop Edition • FikriAF</div>
 
-        <div class="player-inputs">
-            <div class="input-group">
-                <label for="player1">Nama Kamu:</label>
-                <input type="text" id="player1" placeholder="Nama" autocomplete="off">
+            <div class="player-inputs">
+                <div class="input-group">
+                    <label>Pemain 1:</label>
+                    <input type="text" id="player1" placeholder="Tulis nama" autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label>Pemain 2:</label>
+                    <input type="text" id="player2" placeholder="Tulis nama" autocomplete="off">
+                </div>
             </div>
-            <div class="input-group">
-                <label for="player2">Nama Partner Ngobrolmu:</label>
-                <input type="text" id="player2" placeholder="Nama" autocomplete="off">
+
+            <div class="rules-container">
+                <h3>Aturan Main</h3>
+                <ul>
+                    <li>Wajib isi kedua nama sebelum mulai.</li>
+                    <li>Taruh HP mendatar di meja. Layar terbagi dua, tidak perlu diputar.</li>
+                    <li>Tiket "Skip" dan "Balik" otomatis tersimpan di inventaris.</li>
+                    <li>Area pemain yang menyala terang adalah gilirannya menjawab.</li>
+                </ul>
             </div>
-        </div>
 
-        <div class="rules-container">
-            <h3>Aturan Main</h3>
-            <ul>
-                <li>Masukkan nama kalian berdua sebelum mulai.</li>
-                <li>Nama yang muncul di atas kartu adalah pihak yang harus <b>menjawab</b> pertanyaan.</li>
-                <li>Jika muncul aturan tambahan di kartu, silakan diikuti.</li>
-                <!-- <li>Boleh menolak menjawab jika dirasa terlalu berat.</li> -->
-                <li>Fokus ke obrolan, bukan ke layar.</li>
-            </ul>
-        </div>
+            <div id="alertMessage">Tolong isi kedua nama pemain terlebih dahulu.</div>
 
-        <button id="startBtn" class="btn">Mulai Permainan</button>
+            <button id="startBtn" class="main-btn" style="width: 100%;">Mulai Permainan</button>
+        </div>
     </div>
 
     <div id="gameScreen">
-        <div id="turnIndicator" class="turn-indicator">Persiapan...</div>
 
-        <div class="card-perspective">
-            <div id="cardContent" class="card-content">
-                <div id="category" class="category"></div>
-                <div id="question" class="question"></div>
-                <div id="ruleBox" class="rule-box"></div>
+        <div class="player-zone top-zone" id="zoneTop">
+            <div class="hud">
+                <div class="hud-header">
+                    <span class="player-name-badge" id="nameTop">Pemain Atas</span>
+                    <span class="inventory-badge" id="invTop">Skip: 0 | Balik: 0</span>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn skip-btn" id="skipBtnTop" onclick="useSkip(2)">Pakai Skip</button>
+                    <button class="action-btn reverse-btn" id="reverseBtnTop" onclick="useReverse(2)">Serangan
+                        Balik</button>
+                </div>
+            </div>
+            <div class="card-perspective">
+                <div class="card-content">
+                    <div class="category-text"></div>
+                    <div class="question-text">Persiapan...</div>
+                    <div class="rule-text"></div>
+                </div>
             </div>
         </div>
 
-        <div class="button-group">
-            <button id="prevBtn" class="btn btn-secondary" disabled>Sebelumnya</button>
-            <button id="nextBtn" class="btn">Tarik Kartu</button>
+        <div class="middle-controls">
+            <button id="nextBtn" class="main-btn">Tarik Kartu</button>
         </div>
-        <div id="counter" class="counter"></div>
+
+        <div class="player-zone bottom-zone" id="zoneBottom">
+            <div class="card-perspective">
+                <div class="card-content">
+                    <div class="category-text"></div>
+                    <div class="question-text">Persiapan...</div>
+                    <div class="rule-text"></div>
+                </div>
+            </div>
+            <div class="hud" style="margin-top: 10px; margin-bottom: 0;">
+                <div class="action-buttons" style="margin-bottom: 10px; margin-top: 0;">
+                    <button class="action-btn skip-btn" id="skipBtnBottom" onclick="useSkip(1)">Pakai Skip</button>
+                    <button class="action-btn reverse-btn" id="reverseBtnBottom" onclick="useReverse(1)">Serangan
+                        Balik</button>
+                </div>
+                <div class="hud-header">
+                    <span class="player-name-badge" id="nameBottom">Pemain Bawah</span>
+                    <span class="inventory-badge" id="invBottom">Skip: 0 | Balik: 0</span>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -401,122 +445,99 @@
             { category: "Pemanasan", text: "Kalau lihat diri kamu yang dulu, kamu bakal bilang apa ke dia sekarang?" },
             { category: "Pemanasan", text: "Akhir-akhir ini kamu lagi sibuk apa?" },
             { category: "Pemanasan", text: "Ada hal kecil yang belakangan ini bikin kamu senang?" },
-            { category: "Pemanasan", text: "Akhir-akhir ini kamu lagi sering mikirin apa?" },
             { category: "Tentang Kamu", text: "Kamu lagi di fase hidup yang kayak gimana sekarang?" },
             { category: "Tentang Kamu", text: "Apa yang lagi kamu kejar sekarang?" },
             { category: "Tentang Kamu", text: "Apa yang lagi kamu pelajari tentang diri kamu?" },
-            { category: "Tentang Kamu", text: "Hal apa yang paling kamu banggakan dari diri kamu sekarang?" },
-            { category: "Tentang Kamu", text: "Hal apa yang masih pengen kamu perbaiki dari diri kamu?" },
             { category: "Jalan Hidup", text: "Menurut kamu, hidup itu lagi 'mengarah ke mana' buat kamu?" },
             { category: "Jalan Hidup", text: "Apa yang paling kamu takutkan belakangan ini?" },
             { category: "Jalan Hidup", text: "Apa hal yang bikin kamu tetap jalan terus walaupun capek?" },
-            { category: "Jalan Hidup", text: "Kamu tipe orang yang lebih ikut arus atau punya rencana jelas?" },
-            { category: "Jalan Hidup", text: "Kapan terakhir kali kamu ngerasa 'ini gue banget'?" },
-            { category: "Babak Baru", text: "Hal apa yang paling kamu tunggu dari pindah ke Jerman?" },
-            { category: "Babak Baru", text: "Yang paling kamu khawatirin tentang kehidupan di sana apa?" },
-            { category: "Babak Baru", text: "Menurut kamu, kamu bakal berubah banyak gak di sana?" },
-            { category: "Babak Baru", text: "Kamu lebih merasa excited atau nervous soal ini?" },
-            { category: "Babak Baru", text: "Kamu ngebayangin diri kamu di sana bakal kayak gimana rutinitasnya?" },
+
+            { category: "Pilihan Sulit", text: "Pilih mengulang 5 tahun terakhir dalam hidupmu dari awal, atau langsung skip maju 5 tahun ke depan?" },
+            { category: "Pilihan Sulit", text: "Pilih selalu tahu kalau ada orang yang bohong sama kamu, atau selalu bisa bikin orang percaya sama kebohonganmu?" },
+            { category: "Pilihan Sulit", text: "Pilih jadi orang paling pintar di lingkunganmu tapi nggak disukai, atau jadi orang biasa aja tapi disukai semua orang?" },
+            { category: "Pilihan Sulit", text: "Pilih kehilangan semua memori dari masa lalu, atau nggak akan pernah bisa bikin memori baru di masa depan?" },
+            { category: "Pilihan Sulit", text: "Pilih hidup tanpa bisa dengerin musik sama sekali, atau hidup tanpa bisa nonton film dan series sama sekali?" },
+
             { category: "Kilas Balik", text: "Ada gak momen dalam hidup kamu yang ngerasa turning point banget?" },
             { category: "Kilas Balik", text: "Apa pelajaran terbesar yang kamu dapet sejauh ini?" },
             { category: "Kilas Balik", text: "Kamu ngerasa kamu sekarang lebih kuat atau lebih capek?" },
-            { category: "Kilas Balik", text: "Menurut kamu, apa yang paling ngebentuk diri kamu sekarang?" },
-            { category: "Kilas Balik", text: "Hal apa yang dulu kamu pikir penting, tapi sekarang nggak lagi?" },
             { category: "Sudut Pandang", text: "Menurut kamu, hal apa yang paling bikin seseorang terlihat menarik di mata kamu?" },
             { category: "Sudut Pandang", text: "Kalau kamu bisa mengubah satu hal dari dunia ini, apa yang mau kamu ubah?" },
             { category: "Sudut Pandang", text: "Apa hal yang dulunya kamu benci tapi sekarang malah kamu sukai?" },
-            { category: "Sudut Pandang", text: "Kamu lebih percaya kerja keras atau keberuntungan?" },
-            { category: "Sudut Pandang", text: "Menurut kamu, orang dewasa itu harus kayak gimana sih?" },
             { category: "Hal-Hal Kecil", text: "Apa rutinitas harian yang paling jarang kamu lewati?" },
             { category: "Hal-Hal Kecil", text: "Kalau lagi lelah, biasanya kamu ngapain buat mengembalikan energi?" },
             { category: "Hal-Hal Kecil", text: "Buku, film, atau lagu apa yang paling mengubah cara berpikir kamu?" },
-            { category: "Hal-Hal Kecil", text: "Apa tempat favorit kamu untuk menyendiri dan berpikir?" },
-            { category: "Hal-Hal Kecil", text: "Hal kecil apa yang gampang banget bikin kamu tertawa?" },
             { category: "Berandai-andai", text: "Kalau kita ketemu lebih cepat dulu, menurut kamu bakal beda gak?" },
             { category: "Berandai-andai", text: "Kalau dulu kita nggak lost contact, menurut kamu kita bakal gimana sekarang?" },
             { category: "Berandai-andai", text: "Kalau setelah ini kita nggak ketemu lagi, menurut kamu bakal terasa aneh gak?" },
-            { category: "Berandai-andai", text: "Kalau waktu nggak misahin orang, menurut kamu kita bakal tetap sama gak?" },
-            { category: "Berandai-andai", text: "Kalau semua hal berjalan beda sedikit aja, menurut kamu kita masih di titik ini gak?" },
             { category: "Ruang Imajinasi", text: "Kalau suatu hari kita ketemu lagi di tempat yang sama, menurut kamu bakal gimana?" },
-            { category: "Ruang Imajinasi", text: "Kalau jarak justru bikin orang lebih ngerti satu sama lain, kamu percaya gak?" },
             { category: "Ruang Imajinasi", text: "Kalau pertemuan ini bukan kebetulan, menurut kamu artinya apa?" },
             { category: "Ruang Imajinasi", text: "Kalau ada orang-orang yang memang ditakdirkan ketemu lagi, kamu percaya gak?" },
-            { category: "Ruang Imajinasi", text: "Kalau ini bukan akhir, tapi jeda, menurut kamu mungkin gak?" },
             { category: "Titik Temu", text: "Dari semua yang terjadi, kamu paling bersyukur tentang apa?" },
             { category: "Titik Temu", text: "Kamu ngerasa ada hal yang belum sempat kamu sampaikan gak?" },
-            { category: "Titik Temu", text: "Momen hari ini, bagian mana yang paling kamu inget?" },
-            { category: "Titik Temu", text: "Kamu tipe orang yang lebih mudah mengingat atau melepaskan?" },
-            { category: "Titik Temu", text: "Menurut kamu, apa yang bikin sebuah pertemuan jadi berarti?" }
+            { category: "Titik Temu", text: "Momen hari ini, bagian mana yang paling kamu inget?" }
         ];
 
         const iceBreakers = [
-            { category: "Ice Breaker", text: "Kalau kamu jadi bubur ayam, kamu tim diaduk atau nggak diaduk? Berikan alasan logisnya!" },
+            { category: "Ice Breaker", text: "Kalau kamu jadi bubur ayam, kamu tim diaduk atau nggak diaduk? Berikan alasan logisnya." },
             { category: "Ice Breaker", text: "Kalau zombie apocalypse terjadi besok, apa 3 barang pertama yang kamu bawa kabur?" },
-            { category: "Ice Breaker", text: "Pilih satu: Bisa terbang tapi cuma setinggi 1 meter, atau bisa menghilang tapi kalau lagi merem doang?" },
-            { category: "Ice Breaker", text: "Sebutkan satu teori konspirasi paling absurd yang diam-diam kamu percayai." },
-            { category: "Ice Breaker", text: "Kalau hidupmu dijadikan film, genre apa yang cocok dan siapa aktor yang meranin kamu?" }
+            { category: "Ice Breaker", text: "Sebutkan satu teori konspirasi paling aneh yang diam-diam kamu percayai." }
         ];
 
         const specialCards = [
-            { category: "Kartu Spesial", text: "REVERSE: Balikkan keadaan! Lawan bicaramu yang harus menjawab pertanyaan terakhir." },
-            { category: "Kartu Spesial", text: "FREE PASS: Kamu boleh menolak menjawab 1 pertanyaan ke depan tanpa syarat. (Simpan kartu ini)" },
-            { category: "Kartu Spesial", text: "WILDCARD: Kamu bebas membuat satu pertanyaan apa saja secara spontan untuk lawan bicaramu saat ini juga." },
-            { category: "Kartu Spesial", text: "TATAP MATA: Kalian berdua tidak boleh bicara selama 30 detik. Cukup saling menatap tanpa tertawa." }
+            { category: "Kartu Spesial", text: "[ REVERSE ] Selamat. Kamu mendapat 1 Tiket Serangan Balik. Tiket ini otomatis disimpan ke inventarismu." },
+            { category: "Kartu Spesial", text: "[ FREE PASS ] Selamat. Kamu mendapat 1 Tiket Skip. Tiket ini otomatis disimpan ke inventarismu." },
+            { category: "Kartu Spesial", text: "[ WILDCARD ] Kamu bebas membuat satu pertanyaan apa saja secara spontan untuk lawan bicaramu saat ini juga." },
+            { category: "Kartu Spesial", text: "[ TATAP MATA ] Kalian berdua tidak boleh bicara selama 30 detik. Cukup saling menatap tanpa tertawa." }
         ];
 
         const randomRules = [
             "Aturan Tambahan: Jawab sambil menatap mata lawan bicara.",
             "Aturan Tambahan: Tarik napas panjang dulu sebelum mulai menjawab.",
             "Aturan Tambahan: Ceritakan satu contoh kejadian spesifik dari jawabanmu.",
-            "Aturan Tambahan: Minum dulu sebelum menjawab pertanyaan ini.",
             "Aturan Tambahan: Setelah menjawab, tanyakan 'Kalau kamu gimana?'"
         ];
 
         let availableQuestions = [];
-        let history = [];
-        let currentIndex = -1;
-        let p1Name = "Pemain 1";
-        let p2Name = "Pemain 2";
+        let p1Name = "";
+        let p2Name = "";
         let isPlayer1Turn = true;
+
+        let p1Skips = 0;
+        let p2Skips = 0;
+        let p1Reverse = 0;
+        let p2Reverse = 0;
+
         let audioContext;
 
         const startScreen = document.getElementById('startScreen');
         const gameScreen = document.getElementById('gameScreen');
         const startBtn = document.getElementById('startBtn');
-        const cardContent = document.getElementById('cardContent');
-        const categoryEl = document.getElementById('category');
-        const questionEl = document.getElementById('question');
-        const ruleBoxEl = document.getElementById('ruleBox');
         const nextBtn = document.getElementById('nextBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const counterEl = document.getElementById('counter');
-        const turnIndicator = document.getElementById('turnIndicator');
+        const alertMessage = document.getElementById('alertMessage');
+
+        const cardContents = document.querySelectorAll('.card-content');
+        const catEls = document.querySelectorAll('.category-text');
+        const qEls = document.querySelectorAll('.question-text');
+        const ruleEls = document.querySelectorAll('.rule-text');
 
         function initAudio() {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            }
+            if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
         }
 
         function playFlipSound() {
             if (!audioContext) return;
             if (audioContext.state === 'suspended') audioContext.resume();
-
             const osc = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
-
             osc.connect(gainNode);
             gainNode.connect(audioContext.destination);
-
             osc.type = 'triangle';
             osc.frequency.setValueAtTime(800, audioContext.currentTime);
             osc.frequency.exponentialRampToValueAtTime(150, audioContext.currentTime + 0.05);
-
             gainNode.gain.setValueAtTime(0.4, audioContext.currentTime);
             gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
-
-            osc.start();
-            osc.stop(audioContext.currentTime + 0.05);
+            osc.start(); osc.stop(audioContext.currentTime + 0.05);
         }
 
         function shuffleArray(array) {
@@ -530,70 +551,99 @@
         function getCategoryColor(category) {
             if (category === "Kartu Spesial") return 'var(--color-special)';
             if (category === "Ice Breaker") return 'var(--color-icebreaker)';
-
             const catClass = category.toLowerCase().replace(/\s+/g, '');
             const colorVar = `--color-${catClass}`;
             return getComputedStyle(document.documentElement).getPropertyValue(colorVar).trim() || '#03A9F4';
         }
 
-        function updateUI(questionData) {
+        function updateHUD(isCurrentCardSpecial) {
+            document.getElementById('invBottom').textContent = `Skip: ${p1Skips} | Balik: ${p1Reverse}`;
+            document.getElementById('invTop').textContent = `Skip: ${p2Skips} | Balik: ${p2Reverse}`;
+
+            const skipBtnBottom = document.getElementById('skipBtnBottom');
+            const reverseBtnBottom = document.getElementById('reverseBtnBottom');
+            const skipBtnTop = document.getElementById('skipBtnTop');
+            const reverseBtnTop = document.getElementById('reverseBtnTop');
+
+            const zoneBottom = document.getElementById('zoneBottom');
+            const zoneTop = document.getElementById('zoneTop');
+
+            // Logika Visibilitas Tombol Pemain 1
+            if (isPlayer1Turn && !isCurrentCardSpecial) {
+                skipBtnBottom.style.display = p1Skips > 0 ? 'block' : 'none';
+                reverseBtnBottom.style.display = p1Reverse > 0 ? 'block' : 'none';
+            } else {
+                skipBtnBottom.style.display = 'none';
+                reverseBtnBottom.style.display = 'none';
+            }
+
+            // Logika Visibilitas Tombol Pemain 2
+            if (!isPlayer1Turn && !isCurrentCardSpecial) {
+                skipBtnTop.style.display = p2Skips > 0 ? 'block' : 'none';
+                reverseBtnTop.style.display = p2Reverse > 0 ? 'block' : 'none';
+            } else {
+                skipBtnTop.style.display = 'none';
+                reverseBtnTop.style.display = 'none';
+            }
+
+            // Highlight area pemain
+            zoneBottom.style.opacity = isPlayer1Turn ? '1' : '0.4';
+            zoneTop.style.opacity = !isPlayer1Turn ? '1' : '0.4';
+        }
+
+        window.useSkip = function (playerNum) {
+            if (playerNum === 1 && p1Skips > 0 && isPlayer1Turn) {
+                p1Skips--;
+                getNextQuestion();
+            } else if (playerNum === 2 && p2Skips > 0 && !isPlayer1Turn) {
+                p2Skips--;
+                getNextQuestion();
+            }
+        };
+
+        window.useReverse = function (playerNum) {
+            if (playerNum === 1 && p1Reverse > 0 && isPlayer1Turn) {
+                p1Reverse--;
+                isPlayer1Turn = false; // Pindah giliran ke teman
+                updateHUD(false); // Update layar tanpa ganti pertanyaan
+            } else if (playerNum === 2 && p2Reverse > 0 && !isPlayer1Turn) {
+                p2Reverse--;
+                isPlayer1Turn = true; // Pindah giliran ke kamu
+                updateHUD(false);
+            }
+        };
+
+        function updateCardUI(questionData) {
             playFlipSound();
-            cardContent.classList.add('flipping');
+            cardContents.forEach(card => card.classList.add('flipping'));
 
             setTimeout(() => {
                 const catColor = getCategoryColor(questionData.category);
 
-                categoryEl.textContent = questionData.category;
-                categoryEl.style.color = catColor;
-                cardContent.style.borderColor = catColor;
+                for (let i = 0; i < 2; i++) {
+                    catEls[i].textContent = questionData.category;
+                    catEls[i].style.color = catColor;
+                    cardContents[i].style.borderColor = catColor;
 
-                questionEl.textContent = questionData.text;
+                    qEls[i].textContent = questionData.text;
 
-                if (questionData.rule && questionData.category !== "Kartu Spesial" && questionData.category !== "Ice Breaker") {
-                    ruleBoxEl.textContent = questionData.rule;
-                    ruleBoxEl.style.display = "block";
-                    ruleBoxEl.style.borderColor = catColor;
-                } else {
-                    ruleBoxEl.style.display = "none";
+                    if (questionData.rule && questionData.category !== "Kartu Spesial" && questionData.category !== "Ice Breaker") {
+                        ruleEls[i].textContent = questionData.rule;
+                        ruleEls[i].style.display = "block";
+                        ruleEls[i].style.borderColor = catColor;
+                    } else {
+                        ruleEls[i].style.display = "none";
+                    }
                 }
 
-                counterEl.textContent = `Kartu ke-${currentIndex + 1}`;
-                prevBtn.disabled = currentIndex === 0;
+                let isSpecial = (questionData.category === "Kartu Spesial" || questionData.category === "Ice Breaker");
+                updateHUD(isSpecial);
 
-                // Memperjelas penanda giliran berdasarkan jenis kartu
-                if (questionData.category === "Kartu Spesial" && questionData.text.includes("TATAP MATA")) {
-                    turnIndicator.textContent = "Tantangan Berdua";
-                    turnIndicator.style.backgroundColor = "var(--color-special)";
-                    turnIndicator.style.color = "#FFF";
-                } else if (questionData.category === "Kartu Spesial" && questionData.text.includes("WILDCARD")) {
-                    turnIndicator.textContent = `Giliran Bertanya: ${questionData.targetPlayer}`;
-                    turnIndicator.style.backgroundColor = "var(--color-special)";
-                    turnIndicator.style.color = "#FFF";
-                } else if (questionData.category === "Kartu Spesial" && questionData.text.includes("FREE PASS")) {
-                    turnIndicator.textContent = `Hak Istimewa: ${questionData.targetPlayer}`;
-                    turnIndicator.style.backgroundColor = "var(--color-special)";
-                    turnIndicator.style.color = "#FFF";
-                } else if (questionData.category === "Kartu Spesial" && questionData.text.includes("REVERSE")) {
-                    turnIndicator.textContent = `Serangan Balik dari: ${questionData.targetPlayer}`;
-                    turnIndicator.style.backgroundColor = "var(--color-special)";
-                    turnIndicator.style.color = "#FFF";
-                } else {
-                    turnIndicator.textContent = `Giliran Menjawab: ${questionData.targetPlayer}`;
-                    turnIndicator.style.backgroundColor = "#FFFFFF";
-                    turnIndicator.style.color = "var(--btn-bg)";
-                }
-
-                cardContent.classList.remove('flipping');
+                cardContents.forEach(card => card.classList.remove('flipping'));
             }, 300);
         }
 
         function getNextQuestion() {
-            if (currentIndex < history.length - 1) {
-                currentIndex++;
-                updateUI(history[currentIndex]);
-                return;
-            }
-
             if (availableQuestions.length === 0) {
                 availableQuestions = shuffleArray([...allQuestions]);
             }
@@ -601,9 +651,9 @@
             let randomChance = Math.random();
             let currentQuestion;
 
-            if (randomChance < 0.08) {
+            if (randomChance < 0.10) {
                 currentQuestion = specialCards[Math.floor(Math.random() * specialCards.length)];
-            } else if (randomChance >= 0.08 && randomChance < 0.16) {
+            } else if (randomChance >= 0.10 && randomChance < 0.20) {
                 currentQuestion = iceBreakers[Math.floor(Math.random() * iceBreakers.length)];
             } else {
                 currentQuestion = availableQuestions.pop();
@@ -611,55 +661,52 @@
 
             let rule = null;
             if (currentQuestion.category !== "Kartu Spesial" && currentQuestion.category !== "Ice Breaker") {
-                if (Math.random() < 0.20) {
-                    rule = randomRules[Math.floor(Math.random() * randomRules.length)];
-                }
+                if (Math.random() < 0.25) rule = randomRules[Math.floor(Math.random() * randomRules.length)];
             }
 
-            let activePlayer = isPlayer1Turn ? p1Name : p2Name;
+            isPlayer1Turn = !isPlayer1Turn;
+
+            // Memasukkan tiket ke inventaris
+            if (currentQuestion.text.includes("FREE PASS")) {
+                if (isPlayer1Turn) p1Skips++; else p2Skips++;
+            } else if (currentQuestion.text.includes("REVERSE")) {
+                if (isPlayer1Turn) p1Reverse++; else p2Reverse++;
+            }
 
             const questionData = {
                 category: currentQuestion.category,
                 text: currentQuestion.text,
-                rule: rule,
-                targetPlayer: activePlayer
+                rule: rule
             };
 
-            if (!questionData.text.includes("REVERSE")) {
-                isPlayer1Turn = !isPlayer1Turn;
-            }
-
-            history.push(questionData);
-            currentIndex++;
-
-            updateUI(questionData);
-        }
-
-        function getPrevQuestion() {
-            if (currentIndex > 0) {
-                currentIndex--;
-                isPlayer1Turn = history[currentIndex].targetPlayer === p1Name ? false : true;
-                updateUI(history[currentIndex]);
-            }
+            updateCardUI(questionData);
         }
 
         startBtn.addEventListener('click', () => {
             const input1 = document.getElementById('player1').value.trim();
             const input2 = document.getElementById('player2').value.trim();
 
-            p1Name = input1 !== "" ? input1 : "Kamu";
-            p2Name = input2 !== "" ? input2 : "Dia";
+            if (!input1 || !input2) {
+                alertMessage.style.display = 'block';
+                return;
+            }
+
+            alertMessage.style.display = 'none';
+            p1Name = input1;
+            p2Name = input2;
+
+            document.getElementById('nameBottom').textContent = p1Name;
+            document.getElementById('nameTop').textContent = p2Name;
 
             initAudio();
-
             startScreen.style.display = 'none';
-            gameScreen.style.display = 'block';
+            gameScreen.style.display = 'flex';
 
+            isPlayer1Turn = false;
             getNextQuestion();
         });
 
         nextBtn.addEventListener('click', getNextQuestion);
-        prevBtn.addEventListener('click', getPrevQuestion);
     </script>
 </body>
 
