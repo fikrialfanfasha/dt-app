@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Talk</title>
+    <style>
+        :root {
+            /* Tema Biru Langit & Colorful */
+            --bg-body: #E1F5FE;
+            --text-main: #263238;
+            --text-muted: #78909C;
+            --btn-bg: #03A9F4;
+            --btn-hover: #0288D1;
+            --btn-text: #FFFFFF;
+            --card-bg: #FFFFFF;
+
+            /* Palet Kategori Colorful */
+            --color-pemanasan: #FF8A65;
+            --color-tentangkamu: #4DB6AC;
+            --color-jalanhidup: #7986CB;
+            --color-babakbaru: #4FC3F7;
+            --color-kilasbalik: #BA68C8;
+            --color-sudutpandang: #F6BF26;
+            --color-halhalkecil: #81C784;
+            --color-berandaiandai: #F06292;
+            --color-ruangimajinasi: #4DD0E1;
+            --color-titiktemu: #FFB74D;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Container Utama */
+        #gameScreen {
+            display: none;
+            width: 100%;
+            max-width: 580px;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        #startScreen {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 580px;
+            background-color: var(--card-bg);
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(3, 169, 244, 0.1);
+            text-align: center;
+            border: 1px solid #B3E5FC;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #startScreen h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--btn-bg);
+            margin-bottom: 5px;
+        }
+
+        .creator-text {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .rules-container {
+            text-align: left;
+            background-color: #F1F8E9;
+            padding: 25px;
+            border-radius: 12px;
+            width: 100%;
+            margin-bottom: 40px;
+            border-left: 4px solid var(--color-halhalkecil);
+        }
+
+        .rules-container h3 {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .rules-container ul {
+            list-style-type: none;
+            color: var(--text-main);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .rules-container li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+
+        .rules-container li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--color-halhalkecil);
+            font-weight: bold;
+        }
+
+        /* === AREA PERMAINAN === */
+        #gameScreen {
+            text-align: center;
+        }
+
+        .card-perspective {
+            perspective: 2000px;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+
+        .card-content {
+            background: #FFFFFF;
+            padding: 60px 40px;
+            border-radius: 20px;
+
+            box-shadow:
+                0 4px 15px rgba(3, 169, 244, 0.05),
+                0 15px 40px rgba(3, 169, 244, 0.1);
+
+            border: 2px solid #E1F5FE;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            position: relative;
+        }
+
+        .flipping {
+            transform: rotateY(180deg) scale(0.95);
+            box-shadow: 0 0px 0px rgba(0, 0, 0, 0);
+        }
+
+        .category {
+            font-size: 1rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            font-weight: 800;
+            transition: color 0.3s ease;
+        }
+
+        .question {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 30px;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .rule-box {
+            display: none;
+            background-color: #FFFDE7;
+            color: #5D4037;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-top: 20px;
+            max-width: 90%;
+            border-left: 4px solid var(--color-sudutpandang);
+        }
+
+        /* === TOMBOL-TOMBOL === */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            padding: 16px 35px;
+            font-size: 1.05rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(3, 169, 244, 0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--btn-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(3, 169, 244, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(3, 169, 244, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: #FFFFFF;
+            color: var(--btn-bg);
+            border: 2px solid var(--btn-bg);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #E1F5FE;
+            color: var(--btn-hover);
+            border-color: var(--btn-hover);
+            box-shadow: none;
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .counter {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            #startScreen,
+            .card-content {
+                padding: 40px 25px;
+            }
+
+            #startScreen h1 {
+                font-size: 2.4rem;
+            }
+
+            .question {
+                font-size: 1.5rem;
+            }
+
+            .btn {
+                padding: 15px 25px;
+                width: 100%;
+            }
+
+            .button-group {
+                flex-direction: column-reverse;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="startScreen">
+        <h1>Deep Talk</h1>
+        <div class="creator-text">Created by FikriAF</div>
+
+        <div class="rules-container">
+            <h3>Aturan Main</h3>
+            <ul>
+                <li>Jawab pertanyaan dengan santai, tidak ada jawaban salah.</li>
+                <li>Jika muncul aturan tambahan di kartu, silakan diikuti.</li>
+                <li>Boleh menolak menjawab jika dirasa terlalu berat.</li>
+                <li>Fokus ke obrolan, bukan ke layar.</li>
+            </ul>
+        </div>
+
+        <button id="startBtn" class="btn">Mulai Obrolan</button>
+    </div>
+
+    <div id="gameScreen">
+        <div class="card-perspective">
+            <div id="cardContent" class="card-content">
+                <div id="category" class="category"></div>
+                <div id="question" class="question"></div>
+                <div id="ruleBox" class="rule-box"></div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button id="prevBtn" class="btn btn-secondary" disabled>Kembali</button>
+            <button id="nextBtn" class="btn">Tarik Pertanyaan</button>
+        </div>
+        <div id="counter" class="counter"></div>
+    </div>
+
+    <script>
+        const allQuestions = [
+            // Pemanasan
+            { category: "Pemanasan", text: "Apa hal yang paling berubah dari kamu dibanding dulu?" },
+            { category: "Pemanasan", text: "Kalau lihat diri kamu yang dulu, kamu bakal bilang apa ke dia sekarang?" },
+            { category: "Pemanasan", text: "Akhir-akhir ini kamu lagi sibuk apa?" },
+            { category: "Pemanasan", text: "Ada hal kecil yang belakangan ini bikin kamu senang?" },
+            { category: "Pemanasan", text: "Akhir-akhir ini kamu lagi sering mikirin apa?" },
+            // Tentang Kamu
+            { category: "Tentang Kamu", text: "Kamu lagi di fase hidup yang kayak gimana sekarang?" },
+            { category: "Tentang Kamu", text: "Apa yang lagi kamu kejar sekarang?" },
+            { category: "Tentang Kamu", text: "Apa yang lagi kamu pelajari tentang diri kamu?" },
+            { category: "Tentang Kamu", text: "Hal apa yang paling kamu banggakan dari diri kamu sekarang?" },
+            { category: "Tentang Kamu", text: "Hal apa yang masih pengen kamu perbaiki dari diri kamu?" },
+            // Jalan Hidup
+            { category: "Jalan Hidup", text: "Menurut kamu, hidup itu lagi 'mengarah ke mana' buat kamu?" },
+            { category: "Jalan Hidup", text: "Apa yang paling kamu takutkan belakangan ini?" },
+            { category: "Jalan Hidup", text: "Apa hal yang bikin kamu tetap jalan terus walaupun capek?" },
+            { category: "Jalan Hidup", text: "Kamu tipe orang yang lebih ikut arus atau punya rencana jelas?" },
+            { category: "Jalan Hidup", text: "Kapan terakhir kali kamu ngerasa 'ini gue banget'?" },
+            // Babak Baru
+            { category: "Babak Baru", text: "Hal apa yang paling kamu tunggu dari pindah ke Jerman?" },
+            { category: "Babak Baru", text: "Yang paling kamu khawatirin tentang kehidupan di sana apa?" },
+            { category: "Babak Baru", text: "Menurut kamu, kamu bakal berubah banyak gak di sana?" },
+            { category: "Babak Baru", text: "Kamu lebih merasa excited atau nervous soal ini?" },
+            { category: "Babak Baru", text: "Kamu ngebayangin diri kamu di sana bakal kayak gimana rutinitasnya?" },
+            // Kilas Balik
+            { category: "Kilas Balik", text: "Ada gak momen dalam hidup kamu yang ngerasa turning point banget?" },
+            { category: "Kilas Balik", text: "Apa pelajaran terbesar yang kamu dapet sejauh ini?" },
+            { category: "Kilas Balik", text: "Kamu ngerasa kamu sekarang lebih kuat atau lebih capek?" },
+            { category: "Kilas Balik", text: "Menurut kamu, apa yang paling ngebentuk diri kamu sekarang?" },
+            { category: "Kilas Balik", text: "Hal apa yang dulu kamu pikir penting, tapi sekarang nggak lagi?" },
+            // Sudut Pandang
+            { category: "Sudut Pandang", text: "Menurut kamu, hal apa yang paling bikin seseorang terlihat menarik di mata kamu?" },
+            { category: "Sudut Pandang", text: "Kalau kamu bisa mengubah satu hal dari dunia ini, apa yang mau kamu ubah?" },
+            { category: "Sudut Pandang", text: "Apa hal yang dulunya kamu benci tapi sekarang malah kamu suka?" },
+            { category: "Sudut Pandang", text: "Kamu lebih percaya kerja keras atau keberuntungan?" },
+            { category: "Sudut Pandang", text: "Menurut kamu, orang dewasa itu harus kayak gimana sih?" },
+            // Hal-Hal Kecil
+            { category: "Hal-Hal Kecil", text: "Apa rutinitas harian yang paling jarang kamu lewati?" },
+            { category: "Hal-Hal Kecil", text: "Kalau lagi lelah, biasanya kamu ngapain buat mengembalikan energi?" },
+            { category: "Hal-Hal Kecil", text: "Buku, film, atau lagu apa yang paling mengubah cara berpikir kamu?" },
+            { category: "Hal-Hal Kecil", text: "Apa tempat favorit kamu untuk menyendiri dan berpikir?" },
+            { category: "Hal-Hal Kecil", text: "Hal kecil apa yang gampang banget bikin kamu tertawa?" },
+            // Berandai-andai
+            { category: "Berandai-andai", text: "Kalau kita ketemu lebih cepat dulu, menurut kamu bakal beda gak?" },
+            { category: "Berandai-andai", text: "Kalau dulu kita nggak lost contact, menurut kamu kita bakal gimana sekarang?" },
+            { category: "Berandai-andai", text: "Kalau setelah ini kita nggak ketemu lagi, menurut kamu bakal terasa aneh gak?" },
+            { category: "Berandai-andai", text: "Kalau waktu nggak misahin orang, menurut kamu kita bakal tetap sama gak?" },
+            { category: "Berandai-andai", text: "Kalau semua hal berjalan beda sedikit aja, menurut kamu kita masih di titik ini gak?" },
+            // Ruang Imajinasi
+            { category: "Ruang Imajinasi", text: "Kalau suatu hari kita ketemu lagi di tempat yang sama, menurut kamu bakal gimana?" },
+            { category: "Ruang Imajinasi", text: "Kalau jarak justru bikin orang lebih ngerti satu sama lain, kamu percaya gak?" },
+            { category: "Ruang Imajinasi", text: "Kalau pertemuan ini bukan kebetulan, menurut kamu artinya apa?" },
+            { category: "Ruang Imajinasi", text: "Kalau ada orang-orang yang memang ditakdirkan ketemu lagi, kamu percaya gak?" },
+            { category: "Ruang Imajinasi", text: "Kalau ini bukan akhir, tapi jeda, menurut kamu mungkin gak?" },
+            // Titik Temu
+            { category: "Titik Temu", text: "Dari semua yang terjadi, kamu paling bersyukur tentang apa?" },
+            { category: "Titik Temu", text: "Kamu ngerasa ada hal yang belum sempat kamu sampaikan gak?" },
+            { category: "Titik Temu", text: "Momen hari ini, bagian mana yang paling kamu inget?" },
+            { category: "Titik Temu", text: "Kamu tipe orang yang lebih mudah mengingat atau melepaskan?" },
+            { category: "Titik Temu", text: "Menurut kamu, apa yang bikin sebuah pertemuan jadi berarti?" }
+        ];
+
+        // Daftar Aturan yang Sudah Disesuaikan untuk Deep Talk
+        const randomRules = [
+            "Aturan Tambahan: Jawab sambil menatap mata lawan bicara.",
+            "Aturan Tambahan: Tarik napas panjang dulu sebelum mulai menjawab.",
+            "Aturan Tambahan: Ceritakan satu contoh spesifik dari jawabanmu.",
+            "Aturan Tambahan: Minum dulu sebelum menjawab pertanyaan ini.",
+            "Aturan Tambahan: Setelah menjawab, tanyakan 'Kalau kamu gimana?'"
+        ];
+
+        let availableQuestions = [];
+        let history = [];
+        let currentIndex = -1;
+
+        const startScreen = document.getElementById('startScreen');
+        const gameScreen = document.getElementById('gameScreen');
+        const startBtn = document.getElementById('startBtn');
+        const cardContent = document.getElementById('cardContent');
+        const categoryEl = document.getElementById('category');
+        const questionEl = document.getElementById('question');
+        const ruleBoxEl = document.getElementById('ruleBox');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const counterEl = document.getElementById('counter');
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function getCategoryColor(category) {
+            const catClass = category.toLowerCase().replace(/\s+/g, '');
+            const colorVar = `--color-${catClass}`;
+            return getComputedStyle(document.documentElement).getPropertyValue(colorVar).trim() || '#03A9F4';
+        }
+
+        function updateUI(questionData) {
+            cardContent.classList.add('flipping');
+
+            setTimeout(() => {
+                const catColor = getCategoryColor(questionData.category);
+
+                categoryEl.textContent = questionData.category;
+                categoryEl.style.color = catColor;
+
+                questionEl.textContent = questionData.text;
+
+                if (questionData.rule) {
+                    ruleBoxEl.textContent = questionData.rule;
+                    ruleBoxEl.style.display = "block";
+                    ruleBoxEl.style.borderColor = catColor;
+                } else {
+                    ruleBoxEl.style.display = "none";
+                }
+
+                counterEl.textContent = `${currentIndex + 1} dari ${allQuestions.length}`;
+                prevBtn.disabled = currentIndex === 0;
+
+                cardContent.classList.remove('flipping');
+            }, 300);
+        }
+
+        function getNextQuestion() {
+            if (currentIndex < history.length - 1) {
+                currentIndex++;
+                updateUI(history[currentIndex]);
+                return;
+            }
+
+            if (availableQuestions.length === 0) {
+                availableQuestions = shuffleArray([...allQuestions]);
+                history = [];
+                currentIndex = -1;
+            }
+
+            const currentQuestion = availableQuestions.pop();
+
+            let rule = null;
+            if (Math.random() < 0.20) {
+                rule = randomRules[Math.floor(Math.random() * randomRules.length)];
+            }
+
+            const questionData = {
+                category: currentQuestion.category,
+                text: currentQuestion.text,
+                rule: rule
+            };
+
+            history.push(questionData);
+            currentIndex++;
+
+            updateUI(questionData);
+        }
+
+        function getPrevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateUI(history[currentIndex]);
+            }
+        }
+
+        startBtn.addEventListener('click', () => {
+            startScreen.style.display = 'none';
+            gameScreen.style.display = 'block';
+            getNextQuestion();
+        });
+
+        nextBtn.addEventListener('click', getNextQuestion);
+        prevBtn.addEventListener('click', getPrevQuestion);
+    </script>
+</body>
+
+</html>
