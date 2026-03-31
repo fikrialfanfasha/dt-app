@@ -478,47 +478,86 @@
 
     <script>
         const allQuestions = [
+            // Pemanasan
             { category: "Pemanasan", text: "Apa hal yang paling berubah dari kamu dibanding dulu?" },
             { category: "Pemanasan", text: "Kalau lihat diri kamu yang dulu, kamu bakal bilang apa ke dia sekarang?" },
             { category: "Pemanasan", text: "Akhir-akhir ini kamu lagi sibuk apa?" },
             { category: "Pemanasan", text: "Ada hal kecil yang belakangan ini bikin kamu senang?" },
+            { category: "Pemanasan", text: "Hal apa yang biasanya langsung bikin mood kamu naik di pagi hari?" },
+            { category: "Pemanasan", text: "Aplikasi apa di HP kamu yang paling sering kamu buka akhir-akhir ini?" },
+
+            // Tentang Kamu
             { category: "Tentang Kamu", text: "Kamu lagi di fase hidup yang kayak gimana sekarang?" },
             { category: "Tentang Kamu", text: "Apa yang lagi kamu kejar sekarang?" },
             { category: "Tentang Kamu", text: "Apa yang lagi kamu pelajari tentang diri kamu?" },
+            { category: "Tentang Kamu", text: "Kapan terakhir kali kamu ngerasa bener-bener bangga sama diri sendiri?" },
+            { category: "Tentang Kamu", text: "Kalau ada satu sifat kamu yang pengen banget kamu pertahanin sampai tua, apa itu?" },
+
+            // Jalan Hidup
             { category: "Jalan Hidup", text: "Menurut kamu, hidup itu lagi 'mengarah ke mana' buat kamu?" },
             { category: "Jalan Hidup", text: "Apa yang paling kamu takutkan belakangan ini?" },
             { category: "Jalan Hidup", text: "Apa hal yang bikin kamu tetap jalan terus walaupun capek?" },
+            { category: "Jalan Hidup", text: "Menurut kamu, fase hidup yang paling berat itu pas kapan?" },
+            { category: "Jalan Hidup", text: "Pernah gak sih kamu ngerasa jalan di tempat, dan gimana cara kamu buat mulai jalan lagi?" },
 
+            // Pilihan Sulit
             { category: "Pilihan Sulit", text: "Pilih mengulang 5 tahun terakhir dalam hidupmu dari awal, atau langsung skip maju 5 tahun ke depan?" },
             { category: "Pilihan Sulit", text: "Pilih selalu tahu kalau ada orang yang bohong sama kamu, atau selalu bisa bikin orang percaya sama kebohonganmu?" },
             { category: "Pilihan Sulit", text: "Pilih jadi orang paling pintar di lingkunganmu tapi nggak disukai, atau jadi orang biasa aja tapi disukai semua orang?" },
             { category: "Pilihan Sulit", text: "Pilih kehilangan semua memori dari masa lalu, atau nggak akan pernah bisa bikin memori baru di masa depan?" },
             { category: "Pilihan Sulit", text: "Pilih hidup tanpa bisa dengerin musik sama sekali, atau hidup tanpa bisa nonton film dan series sama sekali?" },
+            { category: "Pilihan Sulit", text: "Pilih hidup nyaman tapi rutinitasnya sama terus setiap hari, atau hidup penuh petualangan tapi gak punya tempat tinggal tetap?" },
+            { category: "Pilihan Sulit", text: "Pilih tau kapan kamu akan meninggal, atau tau dengan cara apa kamu akan meninggal?" },
 
+            // Kilas Balik
             { category: "Kilas Balik", text: "Ada gak momen dalam hidup kamu yang ngerasa turning point banget?" },
             { category: "Kilas Balik", text: "Apa pelajaran terbesar yang kamu dapet sejauh ini?" },
             { category: "Kilas Balik", text: "Kamu ngerasa kamu sekarang lebih kuat atau lebih capek?" },
+            { category: "Kilas Balik", text: "Nasihat apa dari masa lalu yang dulunya kamu abaikan, tapi sekarang kerasa banget benarnya?" },
+            { category: "Kilas Balik", text: "Hal bodoh apa yang pernah kamu lakuin dulu tapi sekarang bikin kamu ketawa kalau ngingetnya?" },
+
+            // Sudut Pandang
             { category: "Sudut Pandang", text: "Menurut kamu, hal apa yang paling bikin seseorang terlihat menarik di mata kamu?" },
             { category: "Sudut Pandang", text: "Kalau kamu bisa mengubah satu hal dari dunia ini, apa yang mau kamu ubah?" },
             { category: "Sudut Pandang", text: "Apa hal yang dulunya kamu benci tapi sekarang malah kamu sukai?" },
+            { category: "Sudut Pandang", text: "Menurut kamu, apa tanda paling jelas kalau seseorang itu udah dewasa secara emosional?" },
+            { category: "Sudut Pandang", text: "Ada gak standar sukses di masyarakat yang sebenarnya kamu gak setuju sama sekali?" },
+
+            // Hal-Hal Kecil
             { category: "Hal-Hal Kecil", text: "Apa rutinitas harian yang paling jarang kamu lewati?" },
             { category: "Hal-Hal Kecil", text: "Kalau lagi lelah, biasanya kamu ngapain buat mengembalikan energi?" },
             { category: "Hal-Hal Kecil", text: "Buku, film, atau lagu apa yang paling mengubah cara berpikir kamu?" },
+            { category: "Hal-Hal Kecil", text: "Aroma apa yang selalu bikin kamu ngerasa tenang atau nostalgia?" },
+            { category: "Hal-Hal Kecil", text: "Pujian sekecil apa yang pernah kamu terima dan masih kamu inget sampai sekarang?" },
+
+            // Berandai-andai
             { category: "Berandai-andai", text: "Kalau kita ketemu lebih cepat dulu, menurut kamu bakal beda gak?" },
             { category: "Berandai-andai", text: "Kalau dulu kita nggak lost contact, menurut kamu kita bakal gimana sekarang?" },
             { category: "Berandai-andai", text: "Kalau setelah ini kita nggak ketemu lagi, menurut kamu bakal terasa aneh gak?" },
+            { category: "Berandai-andai", text: "Kalau kita punya kesempatan buat ngerjain satu proyek bareng, menurut kamu kita cocoknya bikin apa?" },
+            { category: "Berandai-andai", text: "Kalau hari ini adalah hari terakhir kita bisa ngobrol santai kayak gini, apa yang pengen kamu bahas?" },
+
+            // Ruang Imajinasi
             { category: "Ruang Imajinasi", text: "Kalau suatu hari kita ketemu lagi di tempat yang sama, menurut kamu bakal gimana?" },
             { category: "Ruang Imajinasi", text: "Kalau pertemuan ini bukan kebetulan, menurut kamu artinya apa?" },
             { category: "Ruang Imajinasi", text: "Kalau ada orang-orang yang memang ditakdirkan ketemu lagi, kamu percaya gak?" },
+            { category: "Ruang Imajinasi", text: "Kalau kamu bisa teleportasi ke satu tempat sekarang juga buat nenangin pikiran, kamu bakal ke mana?" },
+            { category: "Ruang Imajinasi", text: "Kalau pertemuan kita hari ini dibikin jadi judul film pendek, kira-kira judulnya apa ya?" },
+
+            // Titik Temu
             { category: "Titik Temu", text: "Dari semua yang terjadi, kamu paling bersyukur tentang apa?" },
             { category: "Titik Temu", text: "Kamu ngerasa ada hal yang belum sempat kamu sampaikan gak?" },
-            { category: "Titik Temu", text: "Momen hari ini, bagian mana yang paling kamu inget?" }
+            { category: "Titik Temu", text: "Momen hari ini, bagian mana yang paling kamu inget?" },
+            { category: "Titik Temu", text: "Dari obrolan kita sejauh ini, ada gak hal baru yang baru kamu sadari?" },
+            { category: "Titik Temu", text: "Menurut kamu, apa hal yang paling bikin kita nyambung kalau lagi ngobrol?" }
         ];
 
         const iceBreakers = [
             { category: "Ice Breaker", text: "Kalau kamu jadi bubur ayam, kamu tim diaduk atau nggak diaduk? Berikan alasan logisnya." },
             { category: "Ice Breaker", text: "Kalau zombie apocalypse terjadi besok, apa 3 barang pertama yang kamu bawa kabur?" },
-            { category: "Ice Breaker", text: "Sebutkan satu teori konspirasi paling aneh yang diam-diam kamu percayai." }
+            { category: "Ice Breaker", text: "Sebutkan satu teori konspirasi paling aneh yang diam-diam kamu percayai." },
+            { category: "Ice Breaker", text: "Kalau kamu harus milih satu makanan buat dimakan setiap hari seumur hidup, kamu bakal pilih apa?" },
+            { category: "Ice Breaker", text: "Pilih satu: Tiba-tiba jago nari tanpa latihan, atau tiba-tiba jago nyanyi tapi cuma di kamar mandi?" }
         ];
 
         const specialCards = [
