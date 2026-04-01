@@ -164,7 +164,6 @@
         #gameScreen {
             display: none;
             flex-direction: column;
-            /* Perbaikan Utama: Menggunakan dvh untuk mengabaikan address bar */
             height: 100vh;
             height: 100dvh;
             width: 100vw;
@@ -181,7 +180,6 @@
             padding: 10px 20px;
             transition: opacity 0.4s ease;
             overflow: hidden;
-            /* Mencegah elemen keluar dari zonanya */
         }
 
         .top-zone {
@@ -276,7 +274,6 @@
             box-shadow: 0 4px 15px rgba(3, 169, 244, 0.05);
             border: 2px solid #E1F5FE;
             min-height: auto;
-            /* Dibuat fleksibel */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -319,9 +316,9 @@
             margin-top: 10px;
         }
 
+        /* AREA KONTROL TENGAH: Tombol Play */
         .middle-controls {
             height: 70px;
-            /* Ukuran diperkecil agar zona pemain lebih luas */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -330,13 +327,14 @@
             z-index: 10;
             border-top: 2px solid #FFF;
             border-bottom: 2px solid #FFF;
+            padding: 0 10px;
         }
 
         .main-btn {
             background-color: var(--btn-bg);
             color: var(--btn-text);
             border: none;
-            padding: 12px 35px;
+            padding: 12px 40px;
             font-size: 1.1rem;
             border-radius: 30px;
             cursor: pointer;
@@ -349,6 +347,35 @@
         .main-btn:active {
             transform: scale(0.95);
             box-shadow: 0 2px 5px rgba(3, 169, 244, 0.3);
+        }
+
+        /* Styling khusus untuk Tombol Play Tengah */
+        .play-btn {
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(3, 169, 244, 0.3);
+            transition: 0.2s;
+        }
+
+        .play-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 5px rgba(3, 169, 244, 0.3);
+        }
+
+        .play-btn svg {
+            width: 32px;
+            height: 32px;
+            fill: currentColor;
+            margin-left: 4px;
+            /* Penyesuaian optik agar segitiga terlihat persis di tengah */
         }
 
         #alertMessage {
@@ -374,7 +401,22 @@
             }
 
             .middle-controls {
-                height: 60px;
+                height: 65px;
+            }
+
+            .main-btn {
+                font-size: 1rem;
+                padding: 12px 30px;
+            }
+
+            .play-btn {
+                width: 56px;
+                height: 56px;
+            }
+
+            .play-btn svg {
+                width: 28px;
+                height: 28px;
             }
         }
 
@@ -422,7 +464,7 @@
 
             <div id="alertMessage">Tolong isi kedua nama pemain terlebih dahulu.</div>
 
-            <button id="startBtn" class="main-btn" style="width: 100%;">Mulai Permainan</button>
+            <button id="startBtn" class="main-btn" style="width: 100%; max-width: 100%;">Mulai Permainan</button>
         </div>
     </div>
 
@@ -450,7 +492,11 @@
         </div>
 
         <div class="middle-controls">
-            <button id="nextBtn" class="main-btn">Ambil Kartu</button>
+            <button id="nextBtn" class="play-btn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                </svg>
+            </button>
         </div>
 
         <div class="player-zone bottom-zone" id="zoneBottom">
@@ -485,6 +531,7 @@
             { category: "Pemanasan", text: "Ada hal kecil yang belakangan ini bikin kamu senang?" },
             { category: "Pemanasan", text: "Hal apa yang biasanya langsung bikin mood kamu naik di pagi hari?" },
             { category: "Pemanasan", text: "Aplikasi apa di HP kamu yang paling sering kamu buka akhir-akhir ini?" },
+            { category: "Pemanasan", text: "Menurut kamu, warna favoritku apa?" },
 
             // Tentang Kamu
             { category: "Tentang Kamu", text: "Kamu lagi di fase hidup yang kayak gimana sekarang?" },
@@ -492,6 +539,8 @@
             { category: "Tentang Kamu", text: "Apa yang lagi kamu pelajari tentang diri kamu?" },
             { category: "Tentang Kamu", text: "Kapan terakhir kali kamu ngerasa bener-bener bangga sama diri sendiri?" },
             { category: "Tentang Kamu", text: "Kalau ada satu sifat kamu yang pengen banget kamu pertahanin sampai tua, apa itu?" },
+            { category: "Tentang Kamu", text: "Deskripsikan orang terdekat dan yang paling kamu percaya pakai satu kata aja." },
+            { category: "Tentang Kamu", text: "Bahasa asing apa yang pengen banget kamu kuasai?" },
 
             // Jalan Hidup
             { category: "Jalan Hidup", text: "Menurut kamu, hidup itu lagi 'mengarah ke mana' buat kamu?" },
@@ -508,6 +557,8 @@
             { category: "Pilihan Sulit", text: "Pilih hidup tanpa bisa dengerin musik sama sekali, atau hidup tanpa bisa nonton film dan series sama sekali?" },
             { category: "Pilihan Sulit", text: "Pilih hidup nyaman tapi rutinitasnya sama terus setiap hari, atau hidup penuh petualangan tapi gak punya tempat tinggal tetap?" },
             { category: "Pilihan Sulit", text: "Pilih tau kapan kamu akan meninggal, atau tau dengan cara apa kamu akan meninggal?" },
+            { category: "Pilihan Sulit", text: "Mana yang lebih penting buat kamu: kebebasan atau keamanan?" },
+            { category: "Pilihan Sulit", text: "Kamu lebih milih bisa ngomong 10 bahasa atau bisa mengendarai 10 jenis kendaraan berbeda?" },
 
             // Kilas Balik
             { category: "Kilas Balik", text: "Ada gak momen dalam hidup kamu yang ngerasa turning point banget?" },
@@ -522,6 +573,7 @@
             { category: "Sudut Pandang", text: "Apa hal yang dulunya kamu benci tapi sekarang malah kamu sukai?" },
             { category: "Sudut Pandang", text: "Menurut kamu, apa tanda paling jelas kalau seseorang itu udah dewasa secara emosional?" },
             { category: "Sudut Pandang", text: "Ada gak standar sukses di masyarakat yang sebenarnya kamu gak setuju sama sekali?" },
+            { category: "Sudut Pandang", text: "Apa 'ick' (hal kecil yang tiba-tiba bikin ilfeel) terbesar kamu ke seseorang?" },
 
             // Hal-Hal Kecil
             { category: "Hal-Hal Kecil", text: "Apa rutinitas harian yang paling jarang kamu lewati?" },
@@ -529,6 +581,8 @@
             { category: "Hal-Hal Kecil", text: "Buku, film, atau lagu apa yang paling mengubah cara berpikir kamu?" },
             { category: "Hal-Hal Kecil", text: "Aroma apa yang selalu bikin kamu ngerasa tenang atau nostalgia?" },
             { category: "Hal-Hal Kecil", text: "Pujian sekecil apa yang pernah kamu terima dan masih kamu inget sampai sekarang?" },
+            { category: "Hal-Hal Kecil", text: "Kalau lagi ngerasa demotivasi atau down, biasanya kamu ngapain buat nenangin diri?" },
+            { category: "Hal-Hal Kecil", text: "Hari libur (day off) yang sempurna menurut kamu itu yang kayak gimana?" },
 
             // Berandai-andai
             { category: "Berandai-andai", text: "Kalau kita ketemu lebih cepat dulu, menurut kamu bakal beda gak?" },
@@ -536,6 +590,8 @@
             { category: "Berandai-andai", text: "Kalau setelah ini kita nggak ketemu lagi, menurut kamu bakal terasa aneh gak?" },
             { category: "Berandai-andai", text: "Kalau kita punya kesempatan buat ngerjain satu proyek bareng, menurut kamu kita cocoknya bikin apa?" },
             { category: "Berandai-andai", text: "Kalau hari ini adalah hari terakhir kita bisa ngobrol santai kayak gini, apa yang pengen kamu bahas?" },
+            { category: "Berandai-andai", text: "Kalau kamu bisa milih hidup sebagai orang yang kerja di bidang tertentu, kamu bakal milih bidang apa?" },
+            { category: "Berandai-andai", text: "Kalau kamu bisa keliling dunia gratis, negara apa yang pertama kali muncul di pikiran kamu?" },
 
             // Ruang Imajinasi
             { category: "Ruang Imajinasi", text: "Kalau suatu hari kita ketemu lagi di tempat yang sama, menurut kamu bakal gimana?" },
@@ -543,6 +599,9 @@
             { category: "Ruang Imajinasi", text: "Kalau ada orang-orang yang memang ditakdirkan ketemu lagi, kamu percaya gak?" },
             { category: "Ruang Imajinasi", text: "Kalau kamu bisa teleportasi ke satu tempat sekarang juga buat nenangin pikiran, kamu bakal ke mana?" },
             { category: "Ruang Imajinasi", text: "Kalau pertemuan kita hari ini dibikin jadi judul film pendek, kira-kira judulnya apa ya?" },
+            { category: "Ruang Imajinasi", text: "Kamu lebih milih reinkarnasi atau nggak sama sekali? Kenapa?" },
+            { category: "Ruang Imajinasi", text: "Kalau kamu disuruh mendeskripsikan dunia yang sempurna buat ditinggali, bakal kayak gimana bentuknya?" },
+            { category: "Ruang Imajinasi", text: "Bunga apa yang menurut kamu paling mendeskripsikan diri kamu?" },
 
             // Titik Temu
             { category: "Titik Temu", text: "Dari semua yang terjadi, kamu paling bersyukur tentang apa?" },
@@ -557,7 +616,9 @@
             { category: "Ice Breaker", text: "Kalau zombie apocalypse terjadi besok, apa 3 barang pertama yang kamu bawa kabur?" },
             { category: "Ice Breaker", text: "Sebutkan satu teori konspirasi paling aneh yang diam-diam kamu percayai." },
             { category: "Ice Breaker", text: "Kalau kamu harus milih satu makanan buat dimakan setiap hari seumur hidup, kamu bakal pilih apa?" },
-            { category: "Ice Breaker", text: "Pilih satu: Tiba-tiba jago nari tanpa latihan, atau tiba-tiba jago nyanyi tapi cuma di kamar mandi?" }
+            { category: "Ice Breaker", text: "Pilih satu: Tiba-tiba jago nari tanpa latihan, atau tiba-tiba jago nyanyi tapi cuma di kamar mandi?" },
+            { category: "Ice Breaker", text: "Kalau kamu harus milih SATU makanan terakhir sebelum meninggal, kamu bakal makan apa?" },
+            { category: "Ice Breaker", text: "Apa hal paling random yang ada di aplikasi notes HP kamu sekarang?" }
         ];
 
         const specialCards = [
